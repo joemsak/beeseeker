@@ -13,7 +13,7 @@ class LocationListingResultsTest < Minitest::Test
   def test_find_one_result_by_zipcode
     display = SearchResultsDisplay.new
     searchable_list = Minitest::Mock.new
-    search_result = SearchResult.new
+    search_result = Minitest::Mock.new
 
     search = Search.new(display, searchable_list)
 
@@ -22,13 +22,12 @@ class LocationListingResultsTest < Minitest::Test
     search.by_zipcode(60610)
 
     assert_equal([search_result], display.results)
-  end
-
-  class SearchResult
+    assert_equal("We found 1 result for you!", display.results_text)
   end
 
   class SearchableList
     def self.query(options)
+      []
     end
   end
 
@@ -36,7 +35,11 @@ class LocationListingResultsTest < Minitest::Test
     attr_accessor :results
 
     def results_text
-      "Sorry! We couldn't find anything for you :("
+      if results.any?
+        "We found #{results.count} result for you!"
+      else
+        "Sorry! We couldn't find anything for you :("
+      end
     end
   end
 
