@@ -1,4 +1,5 @@
 require "test_helper"
+require "./test/search/searchable_list"
 
 class LocationListingResultsTest < Minitest::Test
   def test_find_zero_results_by_zipcode
@@ -38,12 +39,6 @@ class LocationListingResultsTest < Minitest::Test
 
     assert_equal([search_result] * 3, display.results)
     assert_equal("We found 3 results for you!", display.results_text)
-  end
-
-  class SearchableList
-    def self.query(options)
-      []
-    end
   end
 
   class SearchResultsDisplay
